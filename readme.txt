@@ -1,6 +1,6 @@
-=== Slick Slideshow ===
+=== Improved user search in backend ===
 Contributors: blackbam
-Tags: slideshow, jquery, images, html
+Tags: user, search, backend, user search
 Requires at least: 3.0
 Tested up to: 3.1.2
 License: GPLv2
