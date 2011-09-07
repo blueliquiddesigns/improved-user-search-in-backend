@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Improved User Search in Backend
-Version: 1.0
+Version: 1.0.1
 Description:  This Plugin improves the search for users in WordPress backend significantly. It empowers admins to search for the first name, last name and email address of users instead of only their nicknames/nicenames.
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Author: David Stöckl
@@ -51,15 +51,7 @@ if(is_admin()) {
                 }
             }
    
-            $id_string = "";
-            $b = 0;
-            foreach($uids as $aid) {
-                if($b != 0) {
-                    $id_string .= ",";
-                }
-                $id_string .= $aid;
-                $b++;
-            }
+            $id_string = implode(",",$uids);
        
             $wp_user_query -> query_where = str_replace("user_nicename LIKE '%" . mysql_real_escape_string($_GET["s"]) . "%'", "ID IN(" . $id_string . ")", $wp_user_query -> query_where);
         }

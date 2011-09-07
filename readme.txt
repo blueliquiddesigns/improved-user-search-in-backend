@@ -29,6 +29,9 @@ None.
 
 == Changelog ==
 
+== 1.0.1 ==
+Little code improvements.
+
 = 1.0 =
 
 Initial release to the Plugins directory.
