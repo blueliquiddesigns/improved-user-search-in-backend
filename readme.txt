@@ -6,7 +6,7 @@ Tested up to: 3.1.2
 License: GPLv2
 Stable tag: trunk
 
-This Plugin improves the search for users in the WordPress backend significantly. It empowers admins to search for the first name, last name and email address of users instead of only their nicknames/nicenames.
+This Plugin improves the search for users in the WordPress backend significantly: Search for first name, last name and email of users instead of only nicename.
 
 == Description ==
 
@@ -30,6 +30,7 @@ None.
 == Changelog ==
 
 == 1.0.1 ==
+
 Little code improvements.
 
 = 1.0 =
