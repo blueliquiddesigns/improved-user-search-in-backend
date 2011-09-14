@@ -2,7 +2,7 @@
 Contributors: blackbam
 Tags: user, search, backend, user search
 Requires at least: 3.0
-Tested up to: 3.1.2
+Tested up to: 3.2.1
 License: GPLv2
 Stable tag: trunk
 
