@@ -1,0 +1,47 @@
+=== Improved user search in backend ===
+Contributors: blackbam
+Tags: user, search, backend, user search
+Requires at least: 3.0
+Tested up to: 3.1.2
+License: GPLv2
+Stable tag: trunk
+
+Improves the search for users in the WordPress backend significantly: Search for first name, last name and email (and more) of users instead of only nicename.
+
+== Description ==
+
+This Plugin improves the search for users in the WordPress backend significantly. It empowers admins to search for the first name, last name and email address of users instead of only their nicknames/nicenames. 
+
+It is also possible to search for custom user meta fields now.
+
+Plugin Homepage: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
+
+== Installation ==
+
+1. Upload the "improved-user-search-in-backend" directory into the /wp-content/plugins/ of WordPress or use the auto-installer.
+
+2. Activate the Plugin through the Plugins page.
+
+3. Maybe you want to change the defaults in Settings -> User Search.
+
+4. Enjoy.
+	
+	
+== Known issues ==
+
+- Some special characters like "@" or "/" may cause problems with the mysql-query.
+
+== Changelog ==
+
+== 1.1 ==
+
+Added options page to include custom user meta fields in the search.
+
+== 1.0.1 ==
+
+Little code improvements.
+
+= 1.0 =
+
+Initial release to the Plugins directory.
+
