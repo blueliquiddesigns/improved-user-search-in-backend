@@ -6,7 +6,7 @@ Tested up to: 3.2.1
 License: GPLv2
 Stable tag: trunk
 
-Improves the search for users in the WordPress backend significantly: Search for first name, last name and email (and more) of users instead of only nicename.
+Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
 
 == Description ==
 
@@ -32,6 +32,10 @@ Plugin Homepage: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-impr
 - Some special characters like "@" or "/" may cause problems with the mysql-query.
 
 == Changelog ==
+
+== 1.1.1 ==
+
+Minor changes.
 
 == 1.1 ==
 
