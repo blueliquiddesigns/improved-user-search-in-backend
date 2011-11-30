@@ -4,7 +4,7 @@ Tags: user, search, backend, user search
 Requires at least: 3.0
 Tested up to: 3.2.1
 License: GPLv2
-Stable tag: trunk
+Stable tag: 1.1.1
 
 Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
 
