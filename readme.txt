@@ -1,4 +1,4 @@
-﻿=== Improved user search in backend ===
+=== Improved user search in backend ===
 Contributors: blackbam
 Tags: user, search, backend, user search
 Requires at least: 3.0
