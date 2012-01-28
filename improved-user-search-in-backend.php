@@ -3,8 +3,8 @@
 Plugin Name: Improved User Search in Backend
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Description:  Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
-Version: 1.1.2
-Author: David Stöckl
+Version: 1.2.0
+Author: David StÃ¶ckl
 Author URI: http://www.blackbam.at/
 */
 
@@ -37,32 +37,34 @@ if(is_admin()) {
 
 			// get the custom meta fields to search
 			$iusib_custom_meta = get_option('iusib_meta_fields');
-
 			$iusib_cma = array_map('trim', explode(",",$iusib_custom_meta));
 
 			$iusib_add = "";
-
+			// the escaped query string
+			$qstr = mysql_real_escape_string($_GET["s"]);
+			
+			// add all custom fields into the query
 			if(!empty($iusib_cma)) {
 				$iusib_add = " OR meta_key='".implode("' OR meta_key='",$iusib_cma)."'";
 			}
 
-            $usermeta_affected_ids = $wpdb -> get_results("SELECT DISTINCT user_id FROM " . $wpdb -> prefix . "usermeta WHERE (meta_key='first_name' OR meta_key='last_name'".$iusib_add.") AND meta_value LIKE '%" . mysql_real_escape_string($_GET["s"]) . "%'");
+            $usermeta_affected_ids = $wpdb -> get_results("SELECT DISTINCT user_id FROM ".$wpdb->base_prefix."usermeta WHERE (meta_key='first_name' OR meta_key='last_name'".$iusib_add.") AND LOWER(meta_value) LIKE '%".$qstr."%'");
 
             foreach($usermeta_affected_ids as $maf) {
                 array_push($uids,$maf->user_id);
             }
 
-            $users_affected_ids = $wpdb -> get_results("SELECT DISTINCT ID FROM " . $wpdb -> prefix . "users WHERE user_nicename LIKE '%" . mysql_real_escape_string($_GET["s"]) . "%' OR user_email LIKE '%" . mysql_real_escape_string($_GET["s"]) . "%'");
+            $users_affected_ids = $wpdb -> get_results("SELECT DISTINCT ID FROM ".$wpdb->base_prefix."users WHERE LOWER(user_nicename) LIKE '%".$qstr."%' OR LOWER(user_email) LIKE '%".$qstr."%'");
 
             foreach($users_affected_ids as $maf) {
                 if(!in_array($maf->ID,$uids)) {
                     array_push($uids,$maf->ID);
                 }
             }
-
+			
             $id_string = implode(",",$uids);
 
-            $wp_user_query -> query_where = str_replace("user_nicename LIKE '%" . mysql_real_escape_string($_GET["s"]) . "%'", "ID IN(" . $id_string . ")", $wp_user_query -> query_where);
+            $wp_user_query -> query_where = str_replace("user_nicename LIKE '%".$qstr."%'", "ID IN(".$id_string.")", $wp_user_query -> query_where);
         }
         return $wp_user_query;
     }
