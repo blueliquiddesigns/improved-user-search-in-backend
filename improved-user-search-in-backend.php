@@ -3,7 +3,7 @@
 Plugin Name: Improved User Search in Backend
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Description:  Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
-Version: 1.2.0
+Version: 1.2.1
 Author: David Stöckl
 Author URI: http://www.blackbam.at/
 */
@@ -12,10 +12,8 @@ Author URI: http://www.blackbam.at/
 /* version check */
 global $wp_version;
 
-$exit_msg='Improved User Search in Backend requires WordPress version 3.0 or higher. <a href="http://codex.wordpress.org/Upgrading_Wordpress">Please update!</a>';
-
 if(version_compare($wp_version,"3.0","<")) {
-	exit ($exit_msg);
+	exit('Improved User Search in Backend requires WordPress version 3.0 or higher. <a href="http://codex.wordpress.org/Upgrading_Wordpress">Please update!</a>');
 }
 
 // all of this is only for admins
@@ -37,7 +35,7 @@ if(is_admin()) {
 
 			// get the custom meta fields to search
 			$iusib_custom_meta = get_option('iusib_meta_fields');
-			$iusib_cma = array_map('trim', explode(",",$iusib_custom_meta));
+			$iusib_cma = explode(",",$iusib_custom_meta);
 
 			$iusib_add = "";
 			// the escaped query string
@@ -82,19 +80,30 @@ if(is_admin()) {
 			<h2>Settings: Improved user search in backend</h2>
 			<?php
 			if(isset($_POST['improved_user_search_in_backend_update']) && $_POST['improved_user_search_in_backend_update']!="") {
-
-				update_option('iusib_meta_fields',$_POST['iusib_meta_fields']);
-				?>
-				<div id="message" class="updated">Settings saved successfully</div>
-			<?php }
-			?>
+				
+				// remove unallowed characters
+				$filtered = preg_replace("/[^A-Za-z0-9, ]/",'',$_POST['iusib_meta_fields'] );
+				
+				// remove whitespace
+				$sanitized = implode(",",array_map('trim', explode(",",$filtered)));
+				
+				if($filtered!=$_POST['iusib_meta_fields']) {?>
+					<div class="error settings-error" id="setting-error-invalid_siteurl"> 
+						<p><strong><?php _e('Illegal characters in Custom Meta Fields detected, the string was sanitized.','improved-user-search-in-backend'); ?></strong></p>
+					</div>
+				<?php } 
+					update_option('iusib_meta_fields',$sanitized);?>
+					<div id="setting-error-settings_updated" class="updated settings-error"> 
+						<p><strong><?php _e('Settings saved successfully.','improved-user-search-in-backend'); ?></strong></p>
+					</div>
+			<?php } ?>
 			<form name="improved_user_search_in_backend_update" method="post" action="">
 				<div>
 					<table class="form-table">
 						<tr valign="top">
 							<th scope="row">Custom Meta Fields (comma seperated)</th>
 							<td><textarea name="iusib_meta_fields" rows="6" cols="50"><?php echo get_option('iusib_meta_fields'); ?></textarea></td>
-							<td class="description">add custom user meta fields from your usermeta table for integration in the user search (e.g. "url", "description", "aim", or custom like "birthday")</td>
+							<td class="description">Add custom user meta fields from your usermeta table for integration in the user search (e.g. "url", "description", "aim", or custom like "birthday")</td>
 						</tr>
 					</table>
 					<p></p>
@@ -104,8 +113,6 @@ if(is_admin()) {
 			</form>
 		</div>
 	<?php }
-
-
 }
 
 register_activation_hook(__FILE__,"improved_user_search_in_backend_activate");
