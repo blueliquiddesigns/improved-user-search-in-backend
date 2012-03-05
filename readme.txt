@@ -4,7 +4,7 @@ Tags: user, search, backend, user search
 Requires at least: 3.0
 Tested up to: 3.3.1
 License: GPLv2
-Stable tag: 1.2.1
+Stable tag: 1.2.2
  
 Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
 
@@ -26,11 +26,15 @@ Plugin Homepage: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-impr
 
 4. Enjoy.
 
-== Known issues ==
+== Other notes ==
 
-- Some special characters like "@" or "/" may cause problems with the mysql-query.
+Special characters like quotes are escaped, problems with the query may apper when trying to search for other non-alphanumeric characters.
 
 == Changelog ==
+
+== 1.2.2 ==
+
+- Re-allowed special characters in keys, but strings are still escaped for safe queries.
 
 == 1.2.1 ==
 

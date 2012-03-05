@@ -3,7 +3,7 @@
 Plugin Name: Improved User Search in Backend
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Description:  Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
-Version: 1.2.1
+Version: 1.2.2
 Author: David Stöckl
 Author URI: http://www.blackbam.at/
 */
@@ -43,7 +43,7 @@ if(is_admin()) {
 			
 			// add all custom fields into the query
 			if(!empty($iusib_cma)) {
-				$iusib_add = " OR meta_key='".implode("' OR meta_key='",$iusib_cma)."'";
+				$iusib_add = " OR meta_key='".implode("' OR meta_key='",$wpdb->escape($iusib_cma))."'";
 			}
 
             $usermeta_affected_ids = $wpdb -> get_results("SELECT DISTINCT user_id FROM ".$wpdb->base_prefix."usermeta WHERE (meta_key='first_name' OR meta_key='last_name'".$iusib_add.") AND LOWER(meta_value) LIKE '%".$qstr."%'");
@@ -81,18 +81,10 @@ if(is_admin()) {
 			<?php
 			if(isset($_POST['improved_user_search_in_backend_update']) && $_POST['improved_user_search_in_backend_update']!="") {
 				
-				// remove unallowed characters
-				$filtered = preg_replace("/[^A-Za-z0-9, ]/",'',$_POST['iusib_meta_fields'] );
-				
 				// remove whitespace
-				$sanitized = implode(",",array_map('trim', explode(",",$filtered)));
+				$sanitized = implode(",",array_map('trim', explode(",",$_POST['iusib_meta_fields'])));
 				
-				if($filtered!=$_POST['iusib_meta_fields']) {?>
-					<div class="error settings-error" id="setting-error-invalid_siteurl"> 
-						<p><strong><?php _e('Illegal characters in Custom Meta Fields detected, the string was sanitized.','improved-user-search-in-backend'); ?></strong></p>
-					</div>
-				<?php } 
-					update_option('iusib_meta_fields',$sanitized);?>
+				update_option('iusib_meta_fields',stripslashes($sanitized)); ?>
 					<div id="setting-error-settings_updated" class="updated settings-error"> 
 						<p><strong><?php _e('Settings saved successfully.','improved-user-search-in-backend'); ?></strong></p>
 					</div>
