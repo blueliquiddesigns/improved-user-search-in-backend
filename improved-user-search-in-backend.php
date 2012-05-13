@@ -27,7 +27,7 @@ if(is_admin()) {
 
    // the actual improvement of the query
     function user_search_by_multiple_parameters($wp_user_query) {
-        if(false === strpos($wp_user_query -> query_where, '@') && !empty($_GET["s"])) {
+        if(false === strpos($wp_user_query->query_where, '@') && !empty($_GET["s"])) {
 
             global $wpdb;
 
@@ -46,13 +46,13 @@ if(is_admin()) {
 				$iusib_add = " OR meta_key='".implode("' OR meta_key='",$wpdb->escape($iusib_cma))."'";
 			}
 
-            $usermeta_affected_ids = $wpdb -> get_results("SELECT DISTINCT user_id FROM $wpdb->usermeta WHERE (meta_key='first_name' OR meta_key='last_name'".$iusib_add.") AND LOWER(meta_value) LIKE '%".$qstr."%'");
+            $usermeta_affected_ids = $wpdb->get_results("SELECT DISTINCT user_id FROM $wpdb->usermeta WHERE (meta_key='first_name' OR meta_key='last_name'".$iusib_add.") AND LOWER(meta_value) LIKE '%".$qstr."%'");
 
             foreach($usermeta_affected_ids as $maf) {
                 array_push($uids,$maf->user_id);
             }
 
-            $users_affected_ids = $wpdb -> get_results("SELECT DISTINCT ID FROM $wpdb->users WHERE LOWER(user_nicename) LIKE '%".$qstr."%' OR LOWER(user_email) LIKE '%".$qstr."%'");
+            $users_affected_ids = $wpdb->get_results("SELECT DISTINCT ID FROM $wpdb->users WHERE LOWER(user_nicename) LIKE '%".$qstr."%' OR LOWER(user_email) LIKE '%".$qstr."%'");
 
             foreach($users_affected_ids as $maf) {
                 if(!in_array($maf->ID,$uids)) {
@@ -62,7 +62,7 @@ if(is_admin()) {
 			
             $id_string = implode(",",$uids);
 
-            $wp_user_query -> query_where = str_replace("user_nicename LIKE '%".$qstr."%'", "ID IN(".$id_string.")", $wp_user_query -> query_where);
+            $wp_user_query->query_where = str_replace("user_nicename LIKE '%".$qstr."%'", "ID IN(".$id_string.")", $wp_user_query->query_where);
         }
         return $wp_user_query;
     }
