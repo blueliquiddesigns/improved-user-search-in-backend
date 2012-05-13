@@ -2,9 +2,9 @@
 Contributors: blackbam
 Tags: user, search, backend, user search
 Requires at least: 3.0
-Tested up to: 3.3.1
+Tested up to: 3.3.2
 License: GPLv2
-Stable tag: 1.2.2
+Stable tag: 1.2.3
  
 Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
 
@@ -31,6 +31,10 @@ Plugin Homepage: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-impr
 Special characters like quotes are escaped, problems with the query may apper when trying to search for other non-alphanumeric characters.
 
 == Changelog ==
+
+== 1.2.3 ==
+
+- Database compatibility improved.
 
 == 1.2.2 ==
 
