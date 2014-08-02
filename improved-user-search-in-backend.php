@@ -3,7 +3,7 @@
 Plugin Name: Improved User Search in Backend
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Description:  Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
-Version: 1.2.5
+Version: 1.2.6
 Author: David Stöckl
 Author URI: http://www.blackbam.at/
 */
@@ -92,9 +92,13 @@ if(is_admin()) {
 			if(isset($_POST['improved_user_search_in_backend_update']) && $_POST['improved_user_search_in_backend_update']!="") {
 				
 				// remove whitespace
-				$sanitized = implode(",",array_map('trim', explode(",",$_POST['iusib_meta_fields'])));
+				$sanitized = stripslashes(implode(",",array_map('trim', explode(",",$_POST['iusib_meta_fields']))));
+
+				if(preg_match('/^[a-zA-Z0-9,]+$/',$sanitized)) {
+					update_option('iusib_meta_fields',$sanitized); 
+				}
 				
-				update_option('iusib_meta_fields',stripslashes($sanitized)); ?>
+				?>
 					<div id="setting-error-settings_updated" class="updated settings-error"> 
 						<p><strong><?php _e('Settings saved successfully.','improved-user-search-in-backend'); ?></strong></p>
 					</div>
