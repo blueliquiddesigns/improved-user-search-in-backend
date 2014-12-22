@@ -3,7 +3,7 @@
 Plugin Name: Improved User Search in Backend
 Plugin URI: http://www.blackbam.at/blackbams-blog/2011/06/27/wordpress-improved-user-search-first-name-last-name-email-in-backend/
 Description:  Improves the search for users in the backend significantly: Search for first name, last, email and more of users instead of only nicename.
-Version: 1.2.6
+Version: 1.3
 Author: David Stöckl
 Author URI: http://www.blackbam.at/
 */
@@ -35,9 +35,11 @@ if(is_admin()) {
 
    // the actual improvement of the query
     function user_search_by_multiple_parameters($wp_user_query) {
+
         if(false === strpos($wp_user_query->query_where, '@') && !empty($_GET["s"])) {
 
             global $wpdb;
+
 
             $uids=array();
 
@@ -47,7 +49,12 @@ if(is_admin()) {
 
 			$iusib_add = "";
 			// the escaped query string
-			$qstr = mysql_real_escape_string($_GET["s"]);
+			$qstr = $wpdb->escape($_GET["s"]);
+
+            /*
+             * Do a more robust search (if not doing it already)
+             */
+            $wp_user_query->query_where = str_replace(sprintf("'%s'", $qstr), sprintf("'%%%s%%'", $qstr), $wp_user_query->query_where);			
 			
 			// add all custom fields into the query
 			if(!empty($iusib_cma)) {
@@ -68,11 +75,14 @@ if(is_admin()) {
                 }
             }
 			
+
             $id_string = implode(",",$uids);
 			if (!empty($id_string))
 			{
 	            $wp_user_query->query_where = str_replace("user_nicename LIKE '%".$qstr."%'", "ID IN(".$id_string.")", $wp_user_query->query_where);
 			}
+
+
         }
         return $wp_user_query;
     }
@@ -131,5 +141,3 @@ function improved_user_search_in_backend_uninstall() {
 	// delete all options, tables, ...
 	delete_option('iusib_meta_fields');
 }
-
-?>
